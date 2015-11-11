@@ -1,0 +1,14 @@
+## Makevars.in for netcarto
+##
+## Licensed under GNU GPL 2 or later
+
+# set by configure
+GSL_CFLAGS = @GSL_CFLAGS@
+GSL_LIBS   = @GSL_LIBS@
+
+# combine with standard arguments for R
+PKG_CFLAGS = $(GSL_CFLAGS) -I../inst/include -Irgraph -Irgraph/src -DRPACKAGE
+PKG_LIBS = $(GSL_LIBS)
+
+SOURCES = rgraph/src/fillpartitions.c rgraph/src/movements.c rgraph/src/partition.c rgraph/src/sannealing.c main.c
+OBJECTS = rgraph/src/fillpartitions.o rgraph/src/movements.o rgraph/src/partition.o rgraph/src/sannealing.o main.o

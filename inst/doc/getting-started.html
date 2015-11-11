@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="author" content="Guilhem Doulcier" />
+
+<meta name="date" content="2015-11-10" />
+
+<title>Getting started with rnetcarto</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div id="header">
+<h1 class="title">Getting started with rnetcarto</h1>
+<h4 class="author"><em>Guilhem Doulcier</em></h4>
+<h4 class="date"><em>2015-11-10</em></h4>
+</div>
+
+
+<div id="rnetcarto-in-60-seconds." class="section level1">
+<h1>Rnetcarto in 60 seconds.</h1>
+<p>Rnectcarto provides fast network modularity and roles computation by simulated annealing (<a href="https://github.com/seeslab/rgraph">rgraph C library</a> wrapper for R).</p>
+<p>It exposes one main command named <code>netcarto</code> that take a graph as an input (formated as an <strong>adjacency matrix</strong> or <strong>list</strong>, as described in more detail below) and returns a partition of the graph optimizing a given modularity criterion. It also computes the modularity roles of the nodes.</p>
+<p>Here is a small example:</p>
+<pre class="sourceCode r"><code class="sourceCode r"> <span class="co"># Generate a simple random network</span>
+ a =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.integer</span>(<span class="kw">runif</span>(<span class="dv">100</span>)&lt;.<span class="dv">3</span>), <span class="dt">ncol=</span><span class="dv">10</span>) 
+ a[<span class="kw">lower.tri</span>(a)] =<span class="st"> </span><span class="dv">0</span>
+ <span class="kw">rownames</span>(a) =<span class="st"> </span><span class="kw">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>,<span class="st">'c'</span>,<span class="st">'d'</span>,<span class="st">'e'</span>,<span class="st">'f'</span>,<span class="st">'g'</span>,<span class="st">'h'</span>,<span class="st">'i'</span>)
+ <span class="kw">colnames</span>(a) =<span class="st"> </span><span class="kw">rownames</span>(a)
+ <span class="co"># Find an optimal partition for modularity using netcarto.</span>
+ <span class="co">#  The output consists in a table containing node properties,</span>
+ <span class="co">#  and the modularity value of the partition.</span>
+ <span class="kw">netcarto</span>(a)</code></pre>
+<pre><code>## [[1]]
+##    name module connectivity participation
+## 7     f      0   -0.7071068     0.0000000
+## 9     h      0   -0.7071068     0.6400000
+## 5     d      0    1.4142136     0.5600000
+## 2     b      1   -1.4142136     0.6666667
+## 10    i      1    0.7071068     0.0000000
+## 4     c      1    0.7071068     0.6400000
+## 1     a      2    0.0000000     0.0000000
+## 8     g      2    0.0000000     0.0000000
+## 6     e      2    0.0000000     0.4444444
+## 3     b      2    0.0000000     0.6400000
+## 
+## [[2]]
+## [1] 0.1651235</code></pre>
+</div>
+<div id="input-how-should-i-format-my-data" class="section level1">
+<h1>Input: How should I format my data ?</h1>
+<p>The <code>netcarto</code> function can read network in either adjacency matrix or adjacency list format.</p>
+<div id="matrix-format" class="section level2">
+<h2>Matrix format</h2>
+<p>square symmetric matrix. In this format, the weight <span class="math">\(w\)</span> of an between If you choose the <strong>matrix format</strong>, your network must consist in a vertices <span class="math">\(i\)</span> and <span class="math">\(j\)</span> is given by the corresponding value in the matrix <code>web[i,j]</code>. Auto-loop (i.e. diagonal terms are authorised). You may name the rows and/or columns, those names will be used in the function output. Example:</p>
+<div id="example-1-triplet" class="section level3">
+<h3>Example 1: Triplet</h3>
+<pre class="sourceCode r"><code class="sourceCode r">    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>)
+    input[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">2</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">3</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">1</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">1</span>
+    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)
+    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">rownames</span>(input)
+    <span class="kw">print</span>(input)</code></pre>
+<pre><code>##   A B C
+## A 0 1 1
+## B 1 0 1
+## C 1 1 0</code></pre>
+<p>Note that <code>igraph</code> package can be used to manipulate and plot graphs:</p>
+<pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># import from rnetcarto matrix format to igraph:</span>
+    G =<span class="st"> </span>igraph::<span class="kw">graph.adjacency</span>(input,<span class="dt">weighted=</span><span class="ot">TRUE</span>,<span class="dt">mode=</span><span class="st">&quot;undirected&quot;</span>)
+    <span class="co"># Export to a matrix compatible with netcarto:</span>
+    input =<span class="st"> </span>igraph::<span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>)</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAIAAACb4TnXAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAOuElEQVR4nO3de3CU9b3H8Q8kQTCggAGzBLVyS4HgEUpL0Bh1uGgvJiBSnUOplVJPHemRTqd6nBIUZtDa8ZYwjEqhYLBVcOZEM14STEnIpUAFq45aqOV+AiGWitmIBZM854+1IbvZQC77fZ7d5f0a/vG3T575Bebt73l+e+vlOI4A2Ojt9QSAeEZggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggKFErydw3ti1SxUVqq3V8eMaNEjDhik7W5mZXk8LtgjMXn6+nnxShw6Fecjn089+pgcfdH1OcEkvx3G8nkP82rVL3/++9u07x2FpafrDH5Sd7cqc4CruwcwUFSk7+9x1Saqt1YwZWr/efEpwHSuYjW3bdOONOnWqCz+SkKDXXtPNN5vNCR4gMAOffKKrrlJdXZd/cOBAffCB0tIM5gRvcIlo4KmngupKGK6djpw2f748rq3Pasrg0B88cULLlrk5U1hjBYu0EyeUlqaTJ8+MJAzXjsNK26Rlf1SLlNBXl0/WT+frgrc09js62BT044mJOnCARSxusE0faaWlQXW1qqvUmtVqranouHYs1s0+PXc46LCmJhUX6557rKcJd3CJGGmbN3fqsOOHJEefnw7zUGlpZGcED7GCRdrBg+HHkwYoZYiapYS+umySli/RkfUq+aQLZ0AMIrBIq68PPz7+UR19tM1/H9Udy/WPljBHdmP7EdGKwCItOTn8+MFnde+rapYkXejTrb/US+/ogqtV2O4lVP37m04QbiKwSPP5wo9/+oFKS85schSXa8x+PfRf2vgr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" /></p>
+</div>
+<div id="example-2-two-triplets" class="section level3">
+<h3>Example 2: Two triplets</h3>
+<pre class="sourceCode r"><code class="sourceCode r">    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">7</span>)
+    input[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">10</span>
+    input[<span class="dv">2</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">10</span>
+    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">10</span>
+    input[<span class="dv">4</span>,<span class="dv">5</span>] =<span class="st"> </span><span class="dv">10</span>
+    input[<span class="dv">5</span>,<span class="dv">6</span>] =<span class="st"> </span><span class="dv">10</span>
+    input[<span class="dv">6</span>,<span class="dv">4</span>] =<span class="st"> </span><span class="dv">10</span>
+    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)
+    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">rownames</span>(input)</code></pre>
+<p>Note that:</p>
+<ul>
+<li>Empty colums and lines are removed (Here <code>G</code>).</li>
+<li>If the matrix is not symmetric, symmetry will be enforced by taking <code>web = web+t(web)-diag(web)</code></li>
+</ul>
+<p>So the previous matrix is equivalent to:</p>
+<pre><code>##    A  B  C  D  E  F
+## A  0 10 10  0  0  0
+## B 10  0 10  0  0  0
+## C 10 10  0  0  0  0
+## D  0  0  0  0 10 10
+## E  0  0  0 10  0 10
+## F  0  0  0 10 10  0</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAIAAACb4TnXAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAU4ElEQVR4nO3de1wVdd4H8A8gYWLrhZuI2KZAmiK4u9ViSGnWvrQEy7XE2q2Qx1x9lZdnU3Or3bZMt8182aO5dpHy1do++WTApmuKeKs019WkvCyhaAYocjEVvMH5PX+cVjmHOTBzzvkywzmf9+v8w/Cb+c4oH75nfjOcCVBKgYhkBJq9A0S+jAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLUwewdIB02b8bOnThxAqdPIyICvXvjzjsxYIBs0epqrF+P4mKUl0MpxMQgLg4jRyI8XLauj1FkWZWVas4cFRamAI1XQoJ6+22Rul9+qdLTVXCwRtGgIDVypNq9W6SuLwpQSpmdcdKSm4vsbFRXtzJs0CCsXo2EBK/VffJJLF0Km62lMQEByM7GG294rajvYsAs6c9/xpw5rfyUX9GtGz78EMOGeVq0shKZmSgs1Dt+yBB8+CF69PC0rk9jwKxn5Uo88oixVbp0wY4d6N/fo7qjR+Pjj42tMnw4Nm3yqKiv4yyixezfj0mTDK/1/fe47z6P6s6bZzhdAAoLMXeuR3V9HQNmMU8/jYsXHZYE/ggT5mPXt7Ap2L7HV58g62cas7///jcWL3azaEUFFixwWBLUC7sVVJPX5Wps/Qtu7e687qJFOHbMzbp+gG8RrWTfPiQnOyzp0ANLP8OkPvjsfXzyT1wKx8jHcHs0Fqbiqc/g9F8XFYUTJ9yp+/TTGgH74jhiPsDzm2ADgjqi988w+VcI2Yj+o3CswWHw1KlYssSduv7A3ElMcvDss47T4kFqfL5SF9RzqSrwPwsDu6nXjip1RA3uqDGNvnWrO3UTEppNx/dSu5XaO1V1aLLwlkVKKfV4rPPgnj29+8/gS/gW0Uo++cThy2vi8OxoFD2L+Z/iyoSirRYvP4fjHTHs+ta3oMfRoygu1jWy+ltAoe6S8/Lycnz1leG6/oF3cliJ08lM5FDcBPz3Glx2HPbdSvReqWsLbhRtKvg6hEegEQjqiNif4I/PoPwdrD+lMfLoUSQmGi7tBxgwy7h8GVVVDkt6DATOY3+lgY2cOLF3795Zs2bpHH777bc/08JF6gHzUTG/ydcVGP9HVGldnXPv3M8PMGCWERyMa6/FuXNXl3S4BrCh0chGOneOjY2dPXu2zuHh4eEoK3P57WN/wdS8H3agUzTufwp/24OQZKz8tnldI3vpRxgwK4mOxjffXP2y6jAQir5dUXDWYVhgN2Q/gcACvPE5nNpJTEx4ePiIESMMFG1hGrn2a3yyHlemDPM3I6EUv38c//s7OF5KQEyMgYr+hJMcVvLTnzp8WbYNZcCj9zj/GuyahsXP457uzukCMHiw4aJ9+qBTJ10jGyrxZSWibsQ1jsuDg8Vv7W+3GDArychw+PL8Pry6Gz9/BTNuufofFRCKGfPR8Rze2um8emAg7r3XcNEuXXD33bpGBvfCrZGo2A+necTbb0dYmOG6/oFvEa3krrsQFYWTJ//z9SUsnYA7duLlL5DxPjbuRn1X3Plr/OJ6rPsvrKtyXn30aDdvvc3ORm6uxvIeaci+/EOfvDYK6VMxqA4Pv+H8/nDiRHeK+gmzL8SRo6VLnS/jBkepqa+rryuVUqrxe7W/UE0Z4nD998pfan39tft1hw3TuNDs5PB2lZV09ZK3/ZWc7H5RP8Bbpaxn+HBs3mx4reefL0xN3bdv37Rp0wIDjb/zP3gQKSn4/ntja4WGYvt2d078/AbPwaxn1SrDf0D54IN47rk+ffrk5uampaV903QqUqf+/bFqFYKDDawSFIR33mG6WmF2CyUt5eUqLU37kwKav2bMuLJeY2Pj4sWLIyIiFi1a1NjYaLhuYaHLTyhwenXpotat8+Yh+ygGzML+9CfVtWtLP+X9+qm8vObrHTlyZPjw4SkpKYcOHTJc9OhRlZmpAgJcFg0IUGPHqpISLxygH2DArO3kSbVkiRoxQnXufPVHPCpKTZigVq9uYb3GxsbXXnvN/Va2b5+aM0cNGHD1o2+Cg1W/fmrWLPWvfxUVFdXX17t/UP6Ekxztx7lzqKlBVBRCQnSuUVpaOnHixAsXLuTk5Nx4441u1j15Eko1vQDw0EMPDRo0SP8NWX7N7ISTLPtZWXh4uJutTMuBAwciIyPPnDnjla35NnYwv1BSUjJx4sTGxsacnJz4+HjPNzhhwoTk5GT9t+37L7MTTm3kSit79dVXPW9lBw4ciIqKOnv2rFf2zYexg/mXw4cP21vZihUrPGxlbGK6mJ1wams2m80+wehhK2MT04MdzE8dPnw4KyvLw7OyzMzM5ORkTie2xOyEk2k8vVbGJqYDO5i/u3JWlpOTExcXZ3R1XhNrhdkJJ/PZW5l718qKi4ujoqJ4TcwVdjD6gdu3fbCJtcTshJOF2Gy25cuXR0RELFiwoKGhQedaBw8ejIyM5JmYJnYwclZSUpKVlaWU0n+tbMKECYMGDZozZ470vrU/ZiecrMhoK+N0oivsYOSS/VqZzWbT08p4TUyb2QknS9Pfyvbv388m1hw7GLVOZyvj3YnNMWBt4vPPkZuLLVtQXo6qKnTvjuhoDB2KjAwvPLy8TdhstiVLlrzwwgtz58519cFVpaWlZWVlqb164aOPsG4dSktRXo6OHREdjYEDMWYM7r7b7z6i1OwW6uu2bVM//3lLn6uRnKzWrzd7L/UqKSlJS0u77bbbiouLNb59/LjKzlZBQS4Ptnt39corbb7XZmLAJD33XEufHtP09eSTZu+rXi7vYCwoUN276zrYm29W335r3hG0KQZMzCOP6P3cNfsrPd3sPTbA3spSU1N/aGWrV6sOHQwcbM+e6sgRsw+iLfAcTMa8eXjmGcNrzZyJhQsF9kaE/aysrKzsTw88gLQ01NcbWz8xEQUFiIyU2TvLMDvhvqioSAUGNvmFHarerXEYUF2s/r5MpUVp/GrftMmknXZTQ0ODuukmjQPpcL3apZRSavEtLvvY9Okm7708fnS2gNmzYWv26K7L/8STj+PxxzH1t1i1FymTsXUP7o92HjZ3btvso7cErViBAwc0vhGbgZsBAON+DVePH3v9dRw5IrZr1mB2wn1OaWmzX9Wh6t0aVf2OCm2yMHyYKrKp6vdUt2azILt2mX0MRiQlaXWnYDVzn7J9oWZuVKpCpXRy2cTmzjX7AGSxg3nbRx/pGla1GVPeRPdfYliz60J5eV7fKSmlpdi3T2N58A3IGoRtS/HXv+BiDzyS7HILms8l8yEMmLft2KF3ZNEa1IdgRLM/Iv78c+/ukSBXB9t3HAZcwrL1qNyKwgu4/zGEutjCgQOGn5nUrjBg3lZernfkpUqcAn7crIPp34LpKiq0ll6DBx9B/ScoOAVVjbcKETEGP+3sciPt6HiNY8C87fRpY+MDPN6CiTR3NeRG/Doem1biUig6h2LP+7gUjqyfudxIba3cDpqOz2j2togIvSOviUQE8I9q5+VRUd7dI0GaB9v/IfQB+qzGmSYL07Nw3Rac1dpIOzpe4xgwb+vVS+/IxPvQ6RIKSpyXx8R4d48EaRzstfjVBDR+gfvm4Iz9HoYA3LYA80bj1h+h4Izz8MBANx/c3k7wLaK33XmnrmHhd+D1Saj9PxQ262A6t2AFaWno4Pg7+tpEjI/F1sVYuwVbt2LrVmzdghX/g4aumHirxhaGDEGoqwkQX8AO5m333IMOHdDQ4Lz8upuQNQkXgaDO6H8zJoxHWAV++VvUOt6qFhCAjIw221lPhYdj6FCHR7YnP4aeDXhqM5peaa/cjB02jMpG141wOmtrRwfrHrMvxPmiSZM0LjQ3VXtYrV2u7uihceF17FiTdtpd//iHw5G+WakaNqsegY7HFaSyPlPqjBrp+ETcsDBVWWn2Acjizb4CysrQvz/Oap7RtygkBEVFF6+/PkT3Mywt4a67UFDgzoqLFmH6dG/vjbXwHExATAxWroTW3/y2YtmynTU1AwcO3L59u8BuicnJMTC1c0VGhs+nC+BbRDmvveZ4T31rr9//3r5ebm5uz549p02bVldXZ+oBGLFnj4qMNHCwqanq5Emzd7otMGCS8vNVly6t/7R16qTee6/petXV1Q8//HBcXNy2bdvM2nfDSkvV4MG60pWdbfa+th0GTFhFhXriCRUSov2jFhysJk5Ux49rrpqXl9f+Wtny5SomxmW0UlJUO/qV4Q2c5GgTp09j40Zs2YLvvkNVFcLC0LMnhg7FyJHHzp596623XnjhBc31ampqpk2btnPnzpycnNTU1Dbea/d9+inWrsXRoygr++FTpRITMWYMjD8eqb1jwExWV1cXFxdXWFjYv39/V2Py8/OnTJkybty4efPmderk6q8XyYo4i2iy0NDQ6dOnv/jiiy2MSU9P/+qrr6qrq5OTkz/99NM22zfyHDuY+fQ0Mbv8/Pzf/OY348aNe+mll9jK2gV2MPPpaWJ26enp+/fvP3/+fGJi4uamNyiRVbGDWYL+Jma3bt26yZMnjxw5cuHChZ07u/5bRjIbO5glhIaGzpgxw9VcYnOjRo0qKioCkJSUxFZmZexgVlFXV9e3b9+CgoKBAwfqXysvL88+wcizMmtiB7MKexObP3++obUyMjI4wWhl7GAWYvRMrClOMFoTO5iF6J9ObM5+rayqqiopKamd3Yzv09jBrMWTJmbHszJLYQezFk+amB3PyiyFHcxyPG9idryD0QrYwSzH8yZml56eXlRUdOrUqaSkJLYys7CDWZG3mpgdz8pMxA5mRd5qYnb2szJOMJqCHcyi6urq4uPjd+3a1cv+eTKHDuHECdTWIjISsbHo3duNbRpuZbW1OHYM5eVQCj174sc/RrdubtT1a2b9KTW1qrKyUu3cqR59VIWFOf/tfXy8mj3b1WcNtEDvp32sWKFGjFDBwQ5FO3RQw4er5cvdPyT/w4BZ1fHjauxYFdDs+ZdOn5bzzDNubHvt2rWxsbGTJk06e/as8/c2bFD9+rXyqTVxcerjj71wjH6AAbOk3btVr156PwLtjjtURYXRCvZWFh8fv3379qtLFy5UQUG6igYGqhdf9OYh+ygGzHoOHlRdu+pNl/2VnOxeqfz8/JiYmJkzZzY0NKhXXjFWFFB/+IN3D933cJLDYk6dwpAhKGn2TKNWZWZi1So3CtbU1GzYsGF89+4YNQqNjcZWDgjAmjUYM8aNuv7C7ISTozlzHLtEqHrrlPbIV37i3E82bnS/rvN5l6u6Z9Twzg4jY2LcL+oH+PgiKzlxAosXayxv3IMZy3HRYRH2HnMe9rvfYcQId+q++SYOHdJV11aHgxccxpSV4dVXMXOmO3X9AANmJWvW4Px5jeXnDiHnDZxrbfVdu1BcjIQEw3Xfe097uc66q1YxYK7wTg4r+fhjT7fw978bXqW6Gp995lHRPXvw3XcebcF3sYNZyYED2ssDOyI8Atc2XWTD6RpcbjZBpflOr2UlJS7nNpzrKtTVor7ZYKVw6JA7TzDyAwyYlZw8qb38uvtRer/jonrc3QMbmz3jr6ystLT0gw8+0FkwPj7+/haeY9a87oJkPL1PY2R5uc6K/oYBsxKbTXv5xW3InI+mZ2fqIv5VrzGysfHy5cu1tbU6C9bX16OFmxKd69pQclh7pNH5fb/BgFlJVBSOH9dYfuE7bFzf+mQDgF69EhISFixYYKDojh0uv6W/bkyMgYr+hJMcVhIf7+kW+vY1vEqfPggI8LSu/z2XSCcGzEruvdfTLYwebXiVqCjccotHRQcMQJ8+Hm3Bd/EtopWMHYvZs3H5svPyzv3w2CTHC81A1S7kfommZ2033YTERHfqPvggvvjCnRXtHnjA/XV9ntm3kpCjKVP03ir1zR9UiOOtUmvWuFm0qkrFxmrUPf1X1bm1+33Dw9UpF3tIvNnXcioqMHiwy/n6Ftx1FzZscL/u3/6GzEx3Vnz7bWRluV/X1/EczGKio/HRRwgJMbbWDTfg3Xc9qjt+PJ56yvBaU6YwXS1jwKwnJQV5eejSRe/4xERs2oToaE/rvvyysVsKJ0/G0qWeFvV1DJgl/eIX2LkTKSmtDAsMxKOPoqAAN9zgnboLF2LlSkRGtjIsLAxvvolly7xT1KfxHMzaPvwQy5Zh2zbnqcUuXXDPPZg1C0lJ3i9aVYXXX8f772vc2RgXh8xMPPEEIiK8X9cXMWDtQXU19u5FeTlOn0ZkJHr3xpAhbVH3m29w6BDKy2GzISYGCQno168t6voQBoxIEM/BiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEgQA0YkiAEjEsSAEQliwIgEMWBEghgwIkEMGJEgBoxIEANGJIgBIxLEgBEJYsCIBDFgRIIYMCJBDBiRIAaMSBADRiSIASMSxIARCWLAiAQxYESCGDAiQQwYkSAGjEjQ/wOrwkxJFW4XNQAAAABJRU5ErkJggg==" /></p>
+</div>
+<div id="example-3-bipartite-triplets" class="section level3">
+<h3>Example 3: Bipartite triplets</h3>
+<p>Note that the matrix <em>may</em> not be square and symmetric <em>if and only if</em> you are considering a bipartite network (using the <code>bipartite</code> flag).</p>
+<pre class="sourceCode r"><code class="sourceCode r">    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">2</span>)
+    input[<span class="dv">1</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">4</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">5</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
+    input[<span class="dv">6</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
+    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)
+    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Team 1&quot;</span>, <span class="st">&quot;Team 2&quot;</span>)
+    <span class="kw">print</span>(input)</code></pre>
+<pre><code>##   Team 1 Team 2
+## A      1      0
+## B      1      0
+## C      1      0
+## D      0      1
+## E      0      1
+## F      0      1</code></pre>
+</div>
+</div>
+<div id="list-format" class="section level2">
+<h2>List format</h2>
+<p>If you choose the <strong>list format</strong>, your network must be formatted as a R-list. The first element must be a vector giving the label. The third element is a vector of the edge weights. The weights are optional and are all set to one if the list contains only the first two elements.</p>
+<div id="example-1-unweighted-network" class="section level3">
+<h3>Example 1: Unweighted network:</h3>
+<pre class="sourceCode r"><code class="sourceCode r">    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>)
+    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>)
+    web =<span class="st"> </span><span class="kw">list</span>(nd1,nd2,weights)
+    <span class="kw">print</span>(<span class="kw">list</span>(nd1,nd2))</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot;
+## 
+## [[2]]
+## [1] &quot;B&quot; &quot;C&quot; &quot;A&quot; &quot;E&quot; &quot;F&quot; &quot;D&quot; &quot;D&quot;</code></pre>
+</div>
+<div id="example-2-weighted-network" class="section level3">
+<h3>Example 2: Weighted network</h3>
+<pre class="sourceCode r"><code class="sourceCode r">    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>)
+    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>)
+    weights =<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">1</span>)
+    web =<span class="st"> </span><span class="kw">list</span>(nd1,nd2,weights)
+    <span class="kw">print</span>(web)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot; &quot;A&quot;
+## 
+## [[2]]
+## [1] &quot;B&quot; &quot;C&quot; &quot;A&quot; &quot;E&quot; &quot;F&quot; &quot;D&quot; &quot;D&quot; &quot;D&quot;
+## 
+## [[3]]
+## [1] 10 10 10 10 10 10 10 10  1</code></pre>
+</div>
+<div id="example-3-bipartite-network" class="section level3">
+<h3>Example 3: Bipartite network</h3>
+<pre class="sourceCode r"><code class="sourceCode r">    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>)
+    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>)
+    bipartite =<span class="st"> </span><span class="kw">list</span>(nd1,nd2)
+    <span class="kw">print</span>(bipartite)</code></pre>
+<pre><code>## [[1]]
+## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot; &quot;A&quot;
+## 
+## [[2]]
+## [1] &quot;Team1&quot; &quot;Team2&quot; &quot;Team1&quot; &quot;Team1&quot; &quot;Team2&quot; &quot;Team1&quot; &quot;Team1&quot; &quot;Team2&quot;</code></pre>
+</div>
+</div>
+</div>
+<div id="ouput-how-should-i-read-the-result" class="section level1">
+<h1>Ouput: How should I read the result ?</h1>
+<p>The <code>netcarto</code> command output a list. Its first element is a dataframe giving the name module, connectivity, and participation coefficient for each node of the input graph. The second element is the modularity of this optimal partition.</p>
+<div id="example-1-weighted-network" class="section level3">
+<h3>Example 1: Weighted network</h3>
+<pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">netcarto</span>(igraph::<span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>))</code></pre>
+<pre><code>## [[1]]
+##   name module connectivity participation
+## 4    D      0            0             0
+## 5    E      0            0             0
+## 6    F      0            0             0
+## 1    A      1            0             0
+## 2    B      1            0             0
+## 3    C      1            0             0
+## 
+## [[2]]
+## [1] 0.5</code></pre>
+</div>
+<div id="example-2-bipartite-network" class="section level3">
+<h3>Example 2: Bipartite network</h3>
+<pre class="sourceCode r"><code class="sourceCode r">   <span class="kw">netcarto</span>(bipartite, <span class="dt">bipartite=</span><span class="ot">TRUE</span>)</code></pre>
+<pre><code>## [[1]]
+##   name module connectivity participation
+## 2    B      0    0.0000000     0.5000000
+## 5    E      0    0.0000000     0.5000000
+## 4    D      1   -0.5773503     0.0000000
+## 6    F      1   -0.5773503     0.0000000
+## 1    A      1   -0.5773503     0.4444444
+## 3    C      1    1.7320508     0.0000000
+## 
+## [[2]]
+## [1] 0.3317308</code></pre>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

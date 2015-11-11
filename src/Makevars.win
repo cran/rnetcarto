@@ -1,0 +1,6 @@
+## This assumes that the LIB_GSL variable points to working GSL libraries
+PKG_CPPFLAGS=-I$(LIB_GSL)/include -I../inst/include -Irgraph -Irgraph/src -DRPACKAGE
+PKG_LIBS=-L$(LIB_GSL)/lib -lgsl -lgslcblas 
+
+SOURCES = rgraph/src/fillpartitions.c rgraph/src/movements.c rgraph/src/partition.c rgraph/src/sannealing.c main.c
+OBJECTS = rgraph/src/fillpartitions.o rgraph/src/movements.o rgraph/src/partition.o rgraph/src/sannealing.o main.o
