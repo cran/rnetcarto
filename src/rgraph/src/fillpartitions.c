@@ -48,7 +48,6 @@ EdgeListToAdjaArray(int *nd_in, int *nd_out, double *weight,
   }
   weightsum *= 2;
 
-  //printf("weightsum: %f\n",weightsum );
   // If the weights and strength are not to be normalized, set the
   // normalization constant to 1 (neutral element for division).
   if (!normalize)
@@ -86,14 +85,6 @@ EdgeListToAdjaArray(int *nd_in, int *nd_out, double *weight,
   	degree[nd_in[i]]--;
   	degree[nd_out[i]]--;
   }
-
-  // int k;
-  // for (i = 0; i < N; i++) {
-  //   printf("Node %d (STR:%f ), NEIGH from %d to %d;\n",i,part->nodes[i]->strength,adj->idx[i],adj->idx[i+1]);
-  //   for (k=adj->idx[i]; k < adj->idx[i+1]; k++) {
-  //     printf("\t %d --> %d (STR:%f) \n",k, adj->neighbors[k], adj->strength[k]);
-  //   }
-  // }
 
   free(degree);
   return 0;
@@ -164,7 +155,7 @@ ProjectBipartEdgeList(int *nd_in, int *nd_out, double *weights, int E,
     degree++; // degree of current team
     strength += ed[i].strength; // Strength of current team
     part->nodes[ed[i].node1]->strength += ed[i].strength; // degree of current actor
-    if (ed[i].node2 != ed[i+1].node2 || i == count-1) {
+    if (i == count-1 || ed[i].node2 != ed[i+1].node2) {
       Emax += (degree)*(degree-1) / 2;
       fac2 += strength;
       fac1 += strength * (strength-strength/degree);
@@ -182,7 +173,7 @@ ProjectBipartEdgeList(int *nd_in, int *nd_out, double *weights, int E,
   unsigned int j = 0, x, y, x0 = 0;
   for (i = 0; i <= count-1; i++) {
     degree++;
-    if (ed[i].node2 != ed[i+1].node2 || i == count-1) {
+    if (i == count-1 || ed[i].node2 != ed[i+1].node2) {
       for (x = x0; x < i+1; x++){
         for (y = x0; y < x; y++) {
           if (ed[x].node1 < ed[y].node1){
@@ -201,21 +192,25 @@ ProjectBipartEdgeList(int *nd_in, int *nd_out, double *weights, int E,
   }
   }
   free(ed);
-  // Count the number of unique edges
+  
+  //// Count the number of unique edges, and compute the
+  //// degree of each node in the projected network.
+  // Sort the edges so duplicates are consecutives.
   qsort(projected, j, sizeof(Edge), EdgeCompare);
-  E = j;
+  E = j; // j total number (duplicate included)
+
   unsigned int *degree_proj = calloc(N,sizeof(unsigned int));
   for (i = 0; i < j; i++) {
-    if (EdgeCompare(&projected[i],&projected[i+1]) != 0 || i == j-1) {
+    if (i == j-1 || EdgeCompare(&projected[i],&projected[i+1]) != 0) {
       degree_proj[projected[i].node1]++;
       degree_proj[projected[i].node2]++;
     }
-    else{
-      E --;
+    else{ // Edges ARE duplicated.
+      E --; 
+	}
   }
-  }
-  //printf("Create adja array %d nodes / %d edges\n", N,E );
 
+  // Create Ajacency Array
   adj = CreateAdjaArray(N,E);
   unsigned int k = 0;
   unsigned int *idx = malloc(N*sizeof(unsigned int));
@@ -223,16 +218,13 @@ ProjectBipartEdgeList(int *nd_in, int *nd_out, double *weights, int E,
     idx[i] = k;
     adj->idx[i] = k;
     k += degree_proj[i];
-    //printf("Node %d (degree %d) - idx: %d \n",i,  degree_proj[i], idx[i]);
   }
 
-  //printf("Projected edges:\n");
-
+  
   for (i = 0; i < j; i++) {
     adj->strength[idx[projected[i].node1]] += projected[i].strength;
     adj->strength[idx[projected[i].node2]] += projected[i].strength;
-    if (EdgeCompare(&projected[i],&projected[i+1]) != 0){
-      //printf("%d %d %f:\n",projected[i].node1,projected[i].node2,projected[i].strength);
+    if (i == j-1 || EdgeCompare(&projected[i],&projected[i+1]) != 0){
       adj->neighbors[idx[projected[i].node1]] = projected[i].node2;
       adj->neighbors[idx[projected[i].node2]] = projected[i].node1;
       idx[projected[i].node1]++;
@@ -241,18 +233,15 @@ ProjectBipartEdgeList(int *nd_in, int *nd_out, double *weights, int E,
   }
 
   for (i = 0; i < N; i++) {
-    //printf("Node %d (STR:%f ), NEIGH from %d to %d;\n",i,part->nodes[i]->strength,adj->idx[i],adj->idx[i+1]);
     part->nodes[i]->strength *= fac2;
     for (k=adj->idx[i]; k < adj->idx[i+1]; k++) {
       adj->strength[k] *= fac1;
-      //printf("\t %d --> %d (STR:%f) \n",k, adj->neighbors[k], adj->strength[k]);
     }
   }
 
   free(degree_proj);
   free(idx);
   free(projected);
-  //printf("Setting pointers\n");
   *part_p = part;
   *adj_p = adj;
   return E;

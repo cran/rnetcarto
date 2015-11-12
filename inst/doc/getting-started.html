@@ -10,7 +10,7 @@
 
 <meta name="author" content="Guilhem Doulcier" />
 
-<meta name="date" content="2015-11-10" />
+<meta name="date" content="2015-11-11" />
 
 <title>Getting started with rnetcarto</title>
 
@@ -54,7 +54,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <div id="header">
 <h1 class="title">Getting started with rnetcarto</h1>
 <h4 class="author"><em>Guilhem Doulcier</em></h4>
-<h4 class="date"><em>2015-11-10</em></h4>
+<h4 class="date"><em>2015-11-11</em></h4>
 </div>
 
 
@@ -73,20 +73,19 @@ code > span.er { color: #ff0000; font-weight: bold; }
  <span class="co">#  and the modularity value of the partition.</span>
  <span class="kw">netcarto</span>(a)</code></pre>
 <pre><code>## [[1]]
-##    name module connectivity participation
-## 7     f      0   -0.7071068     0.0000000
-## 9     h      0   -0.7071068     0.6400000
-## 5     d      0    1.4142136     0.5600000
-## 2     b      1   -1.4142136     0.6666667
-## 10    i      1    0.7071068     0.0000000
-## 4     c      1    0.7071068     0.6400000
-## 1     a      2    0.0000000     0.0000000
-## 8     g      2    0.0000000     0.0000000
-## 6     e      2    0.0000000     0.4444444
-## 3     b      2    0.0000000     0.6400000
+##   name module connectivity participation             role
+## 8    h      0   -1.4142136     0.0000000 Ultra peripheral
+## 5    d      0    0.7071068     0.0000000 Ultra peripheral
+## 4    c      0    0.7071068     0.6400000        Connector
+## 2    b      1   -0.7071068     0.5000000       Peripheral
+## 6    f      1   -0.7071068     0.6666667        Connector
+## 9    i      1    1.4142136     0.0000000 Ultra peripheral
+## 1    a      2   -0.7071068     0.0000000 Ultra peripheral
+## 7    g      2   -0.7071068     0.5000000       Peripheral
+## 3    b      2    1.4142136     0.4444444       Peripheral
 ## 
 ## [[2]]
-## [1] 0.1651235</code></pre>
+## [1] 0.2024793</code></pre>
 </div>
 <div id="input-how-should-i-format-my-data" class="section level1">
 <h1>Input: How should I format my data ?</h1>
@@ -217,13 +216,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h3>Example 1: Weighted network</h3>
 <pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">netcarto</span>(igraph::<span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>))</code></pre>
 <pre><code>## [[1]]
-##   name module connectivity participation
-## 4    D      0            0             0
-## 5    E      0            0             0
-## 6    F      0            0             0
-## 1    A      1            0             0
-## 2    B      1            0             0
-## 3    C      1            0             0
+##   name module connectivity participation             role
+## 1    A      0            0             0 Ultra peripheral
+## 2    B      0            0             0 Ultra peripheral
+## 3    C      0            0             0 Ultra peripheral
+## 4    D      1            0             0 Ultra peripheral
+## 5    E      1            0             0 Ultra peripheral
+## 6    F      1            0             0 Ultra peripheral
 ## 
 ## [[2]]
 ## [1] 0.5</code></pre>
@@ -232,13 +231,13 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <h3>Example 2: Bipartite network</h3>
 <pre class="sourceCode r"><code class="sourceCode r">   <span class="kw">netcarto</span>(bipartite, <span class="dt">bipartite=</span><span class="ot">TRUE</span>)</code></pre>
 <pre><code>## [[1]]
-##   name module connectivity participation
-## 2    B      0    0.0000000     0.5000000
-## 5    E      0    0.0000000     0.5000000
-## 4    D      1   -0.5773503     0.0000000
-## 6    F      1   -0.5773503     0.0000000
-## 1    A      1   -0.5773503     0.4444444
-## 3    C      1    1.7320508     0.0000000
+##   name module connectivity participation             role
+## 2    B      0    0.0000000     0.5000000       Peripheral
+## 5    E      0    0.0000000     0.5000000       Peripheral
+## 4    D      1   -0.5773503     0.0000000 Ultra peripheral
+## 6    F      1   -0.5773503     0.0000000 Ultra peripheral
+## 1    A      1   -0.5773503     0.4444444       Peripheral
+## 3    C      1    1.7320508     0.0000000 Ultra peripheral
 ## 
 ## [[2]]
 ## [1] 0.3317308</code></pre>

@@ -1,4 +1,4 @@
-641bf6a0cc8719ac6202bb8576ee0815 *DESCRIPTION
+dbd80e95861c3f77658d56ce549cf11b *DESCRIPTION
 ed96f344adac32648ee49c7548b1ed23 *NAMESPACE
 a4e4b9e565fc0e6e6e692cdbd2d60701 *R/rnetcarto.R
 c24134fefca897f774ee167ddc1c74d9 *README.md
@@ -9,7 +9,7 @@ ed9324964736590e0dc6aa15b07a3dda *configure
 93c4b97f47659eee075379f928c42cfc *inst/CITATION
 ab814f18520bed16e16bc1504fd8e4c9 *inst/doc/getting-started.R
 d7bd12196488f01267cfeb1b3dcf2a39 *inst/doc/getting-started.Rmd
-133de1ac73d926b89408a360ae78080c *inst/doc/getting-started.html
+4190996c32a508bc3d02a24e0e22b985 *inst/doc/getting-started.html
 7b9580d16fa9c5e4399b6d6d7ca864b7 *man/rnetcarto.Rd
 abe0d51b3e30aea439fa1556df98effc *src/Makevars.in
 7073882bc5ee4ac185749ac08ea86038 *src/Makevars.win
@@ -18,7 +18,7 @@ d41d8cd98f00b204e9800998ecf8427e *src/main.h
 9b0001aeb0d378a4151d6abd29f0e3d6 *src/rgraph/README.md
 d850a65716a5a67ed08c9ca02e31e1ee *src/rgraph/netcarto/main_netcarto.c
 aa26dae87f7ca0ff2c3a422a39be1a29 *src/rgraph/netcarto/main_netcarto_legacy.c
-e261b02b4b2ca19267c49ec99af55241 *src/rgraph/src/fillpartitions.c
+7e08fd6e3566c3e0726a62c79e01d0c7 *src/rgraph/src/fillpartitions.c
 4f0c3b9db32e3d9c6b2cc5d1ad98e5c4 *src/rgraph/src/fillpartitions.h
 c0fe41a4f63e1ded062549e98ee0a766 *src/rgraph/src/io.c
 c3df25522c8d71c7c031dd24a1b93473 *src/rgraph/src/io.h
