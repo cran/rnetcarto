@@ -1,49 +1,344 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Guilhem Doulcier" />
 
-<meta name="date" content="2015-11-11" />
+<meta name="date" content="2022-05-11" />
 
-<title>Getting started with rnetcarto</title>
+<title>Getting Started with rnetcarto</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
 
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
-<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; }
-code > span.dt { color: #902000; }
-code > span.dv { color: #40a070; }
-code > span.bn { color: #40a070; }
-code > span.fl { color: #40a070; }
-code > span.ch { color: #4070a0; }
-code > span.st { color: #4070a0; }
-code > span.co { color: #60a0b0; font-style: italic; }
-code > span.ot { color: #007020; }
-code > span.al { color: #ff0000; font-weight: bold; }
-code > span.fu { color: #06287e; }
-code > span.er { color: #ff0000; font-weight: bold; }
-</style>
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
 <style type="text/css">
-  pre:not([class]) {
-    background-color: white;
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
   }
 </style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
-<link href="data:text/css,body%20%7B%0A%20%20background%2Dcolor%3A%20%23fff%3B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20max%2Dwidth%3A%20700px%3B%0A%20%20overflow%3A%20visible%3B%0A%20%20padding%2Dleft%3A%202em%3B%0A%20%20padding%2Dright%3A%202em%3B%0A%20%20font%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0A%20%20font%2Dsize%3A%2014px%3B%0A%20%20line%2Dheight%3A%201%2E35%3B%0A%7D%0A%0A%23header%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0A%0A%23TOC%20%7B%0A%20%20clear%3A%20both%3B%0A%20%20margin%3A%200%200%2010px%2010px%3B%0A%20%20padding%3A%204px%3B%0A%20%20width%3A%20400px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20border%2Dradius%3A%205px%3B%0A%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20font%2Dsize%3A%2013px%3B%0A%20%20line%2Dheight%3A%201%2E3%3B%0A%7D%0A%20%20%23TOC%20%2Etoctitle%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%20%20font%2Dsize%3A%2015px%3B%0A%20%20%20%20margin%2Dleft%3A%205px%3B%0A%20%20%7D%0A%0A%20%20%23TOC%20ul%20%7B%0A%20%20%20%20padding%2Dleft%3A%2040px%3B%0A%20%20%20%20margin%2Dleft%3A%20%2D1%2E5em%3B%0A%20%20%20%20margin%2Dtop%3A%205px%3B%0A%20%20%20%20margin%2Dbottom%3A%205px%3B%0A%20%20%7D%0A%20%20%23TOC%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dleft%3A%20%2D2em%3B%0A%20%20%7D%0A%20%20%23TOC%20li%20%7B%0A%20%20%20%20line%2Dheight%3A%2016px%3B%0A%20%20%7D%0A%0Atable%20%7B%0A%20%20margin%3A%201em%20auto%3B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dcolor%3A%20%23DDDDDD%3B%0A%20%20border%2Dstyle%3A%20outset%3B%0A%20%20border%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0A%20%20border%2Dwidth%3A%202px%3B%0A%20%20padding%3A%205px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0A%20%20border%2Dwidth%3A%201px%3B%0A%20%20border%2Dstyle%3A%20inset%3B%0A%20%20line%2Dheight%3A%2018px%3B%0A%20%20padding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0A%20%20border%2Dleft%2Dstyle%3A%20none%3B%0A%20%20border%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Ap%20%7B%0A%20%20margin%3A%200%2E5em%200%3B%0A%7D%0A%0Ablockquote%20%7B%0A%20%20background%2Dcolor%3A%20%23f6f6f6%3B%0A%20%20padding%3A%200%2E25em%200%2E75em%3B%0A%7D%0A%0Ahr%20%7B%0A%20%20border%2Dstyle%3A%20solid%3B%0A%20%20border%3A%20none%3B%0A%20%20border%2Dtop%3A%201px%20solid%20%23777%3B%0A%20%20margin%3A%2028px%200%3B%0A%7D%0A%0Adl%20%7B%0A%20%20margin%2Dleft%3A%200%3B%0A%7D%0A%20%20dl%20dd%20%7B%0A%20%20%20%20margin%2Dbottom%3A%2013px%3B%0A%20%20%20%20margin%2Dleft%3A%2013px%3B%0A%20%20%7D%0A%20%20dl%20dt%20%7B%0A%20%20%20%20font%2Dweight%3A%20bold%3B%0A%20%20%7D%0A%0Aul%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%7D%0A%20%20ul%20li%20%7B%0A%20%20%20%20list%2Dstyle%3A%20circle%20outside%3B%0A%20%20%7D%0A%20%20ul%20ul%20%7B%0A%20%20%20%20margin%2Dbottom%3A%200%3B%0A%20%20%7D%0A%0Apre%2C%20code%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20color%3A%20%23333%3B%0A%7D%0Apre%20%7B%0A%20%20white%2Dspace%3A%20pre%2Dwrap%3B%20%20%20%20%2F%2A%20Wrap%20long%20lines%20%2A%2F%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20margin%3A%205px%200px%2010px%200px%3B%0A%20%20padding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0A%20%20background%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0A%0Acode%20%7B%0A%20%20font%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0A%20%20font%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0A%20%20padding%3A%202px%200px%3B%0A%7D%0A%0Adiv%2Efigure%20%7B%0A%20%20text%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0A%20%20background%2Dcolor%3A%20%23FFFFFF%3B%0A%20%20padding%3A%202px%3B%0A%20%20border%3A%201px%20solid%20%23DDDDDD%3B%0A%20%20border%2Dradius%3A%203px%3B%0A%20%20border%3A%201px%20solid%20%23CCCCCC%3B%0A%20%20margin%3A%200%205px%3B%0A%7D%0A%0Ah1%20%7B%0A%20%20margin%2Dtop%3A%200%3B%0A%20%20font%2Dsize%3A%2035px%3B%0A%20%20line%2Dheight%3A%2040px%3B%0A%7D%0A%0Ah2%20%7B%0A%20%20border%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20padding%2Dbottom%3A%202px%3B%0A%20%20font%2Dsize%3A%20145%25%3B%0A%7D%0A%0Ah3%20%7B%0A%20%20border%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0A%20%20padding%2Dtop%3A%2010px%3B%0A%20%20font%2Dsize%3A%20120%25%3B%0A%7D%0A%0Ah4%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0A%20%20margin%2Dleft%3A%208px%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Ah5%2C%20h6%20%7B%0A%20%20border%2Dbottom%3A%201px%20solid%20%23ccc%3B%0A%20%20font%2Dsize%3A%20105%25%3B%0A%7D%0A%0Aa%20%7B%0A%20%20color%3A%20%230033dd%3B%0A%20%20text%2Ddecoration%3A%20none%3B%0A%7D%0A%20%20a%3Ahover%20%7B%0A%20%20%20%20color%3A%20%236666ff%3B%20%7D%0A%20%20a%3Avisited%20%7B%0A%20%20%20%20color%3A%20%23800080%3B%20%7D%0A%20%20a%3Avisited%3Ahover%20%7B%0A%20%20%20%20color%3A%20%23BB00BB%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%20%20a%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0A%20%20%20%20text%2Ddecoration%3A%20underline%3B%20%7D%0A%0A%2F%2A%20Class%20described%20in%20https%3A%2F%2Fbenjeffrey%2Ecom%2Fposts%2Fpandoc%2Dsyntax%2Dhighlighting%2Dcss%0A%20%20%20Colours%20from%20https%3A%2F%2Fgist%2Egithub%2Ecom%2Frobsimmons%2F1172277%20%2A%2F%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Keyword%20%2A%2F%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%2F%2A%20DataType%20%2A%2F%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%2F%2A%20DecVal%20%28decimal%20values%29%20%2A%2F%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20BaseN%20%2A%2F%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Float%20%2A%2F%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20Char%20%2A%2F%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%2F%2A%20String%20%2A%2F%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%2F%2A%20Comment%20%2A%2F%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%2F%2A%20OtherToken%20%2A%2F%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20AlertToken%20%2A%2F%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%2F%2A%20Function%20calls%20%2A%2F%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%2F%2A%20ErrorTok%20%2A%2F%0A%0A" rel="stylesheet" type="text/css" />
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
 
 </head>
 
@@ -51,85 +346,95 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 
 
-<div id="header">
-<h1 class="title">Getting started with rnetcarto</h1>
-<h4 class="author"><em>Guilhem Doulcier</em></h4>
-<h4 class="date"><em>2015-11-11</em></h4>
-</div>
+
+<h1 class="title toc-ignore">Getting Started with rnetcarto</h1>
+<h4 class="author">Guilhem Doulcier</h4>
+<h4 class="date">2022-05-11</h4>
 
 
+
+<pre><code>## Loading required package: igraph</code></pre>
+<pre><code>## 
+## Attaching package: &#39;igraph&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     union</code></pre>
 <div id="rnetcarto-in-60-seconds." class="section level1">
 <h1>Rnetcarto in 60 seconds.</h1>
-<p>Rnectcarto provides fast network modularity and roles computation by simulated annealing (<a href="https://github.com/seeslab/rgraph">rgraph C library</a> wrapper for R).</p>
-<p>It exposes one main command named <code>netcarto</code> that take a graph as an input (formated as an <strong>adjacency matrix</strong> or <strong>list</strong>, as described in more detail below) and returns a partition of the graph optimizing a given modularity criterion. It also computes the modularity roles of the nodes.</p>
+<p>Rnetcarto provides fast network modularity and roles computation by simulated annealing (<a href="https://github.com/seeslab/rgraph">rgraph C library</a> wrapper for R).</p>
+<p>It exposes one main command named <code>netcarto</code> that take a graph as an input (formatted as an <strong>adjacency matrix</strong> or <strong>list</strong>, as described in more detail below) and returns a partition of the graph optimizing a given modularity criterion. It also computes the modularity roles of the nodes.</p>
 <p>Here is a small example:</p>
-<pre class="sourceCode r"><code class="sourceCode r"> <span class="co"># Generate a simple random network</span>
- a =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.integer</span>(<span class="kw">runif</span>(<span class="dv">100</span>)&lt;.<span class="dv">3</span>), <span class="dt">ncol=</span><span class="dv">10</span>) 
- a[<span class="kw">lower.tri</span>(a)] =<span class="st"> </span><span class="dv">0</span>
- <span class="kw">rownames</span>(a) =<span class="st"> </span><span class="kw">c</span>(<span class="st">'a'</span>,<span class="st">'b'</span>,<span class="st">'b'</span>,<span class="st">'c'</span>,<span class="st">'d'</span>,<span class="st">'e'</span>,<span class="st">'f'</span>,<span class="st">'g'</span>,<span class="st">'h'</span>,<span class="st">'i'</span>)
- <span class="kw">colnames</span>(a) =<span class="st"> </span><span class="kw">rownames</span>(a)
- <span class="co"># Find an optimal partition for modularity using netcarto.</span>
- <span class="co">#  The output consists in a table containing node properties,</span>
- <span class="co">#  and the modularity value of the partition.</span>
- <span class="kw">netcarto</span>(a)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a> <span class="co"># Generate a simple random network</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a> a =<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">as.integer</span>(<span class="kw">runif</span>(<span class="dv">100</span>)<span class="op">&lt;</span>.<span class="dv">3</span>), <span class="dt">ncol=</span><span class="dv">10</span>) </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a> a[<span class="kw">lower.tri</span>(a)] =<span class="st"> </span><span class="dv">0</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a> <span class="kw">rownames</span>(a) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&#39;a&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;b&#39;</span>,<span class="st">&#39;c&#39;</span>,<span class="st">&#39;d&#39;</span>,<span class="st">&#39;e&#39;</span>,<span class="st">&#39;f&#39;</span>,<span class="st">&#39;g&#39;</span>,<span class="st">&#39;h&#39;</span>,<span class="st">&#39;i&#39;</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a> <span class="kw">colnames</span>(a) =<span class="st"> </span><span class="kw">rownames</span>(a)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a> <span class="co"># Find an optimal partition for modularity using netcarto.</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true"></a> <span class="co">#  The output consists in a table containing node properties,</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true"></a> <span class="co">#  and the modularity value of the partition.</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a> <span class="kw">netcarto</span>(a)</span></code></pre></div>
 <pre><code>## [[1]]
-##   name module connectivity participation             role
-## 8    h      0   -1.4142136     0.0000000 Ultra peripheral
-## 5    d      0    0.7071068     0.0000000 Ultra peripheral
-## 4    c      0    0.7071068     0.6400000        Connector
-## 2    b      1   -0.7071068     0.5000000       Peripheral
-## 6    f      1   -0.7071068     0.6666667        Connector
-## 9    i      1    1.4142136     0.0000000 Ultra peripheral
-## 1    a      2   -0.7071068     0.0000000 Ultra peripheral
-## 7    g      2   -0.7071068     0.5000000       Peripheral
-## 3    b      2    1.4142136     0.4444444       Peripheral
+##    name module connectivity participation             role
+## 4     c      0   -0.9045340     0.0000000 Ultra peripheral
+## 9     h      0   -0.9045340     0.6250000        Connector
+## 6     e      0    0.3015113     0.5600000       Peripheral
+## 8     g      0    1.5075567     0.3200000       Peripheral
+## 1     a      1   -0.7071068     0.5000000       Peripheral
+## 3     b      1   -0.7071068     0.5000000       Peripheral
+## 7     f      1    1.4142136     0.6250000        Connector
+## 2     b      2   -1.4142136     0.4444444       Peripheral
+## 5     d      2    0.7071068     0.4800000       Peripheral
+## 10    i      2    0.7071068     0.5600000       Peripheral
 ## 
 ## [[2]]
-## [1] 0.2024793</code></pre>
+## [1] 0.13875</code></pre>
 </div>
 <div id="input-how-should-i-format-my-data" class="section level1">
-<h1>Input: How should I format my data ?</h1>
+<h1>Input: How should I format my data?</h1>
 <p>The <code>netcarto</code> function can read network in either adjacency matrix or adjacency list format.</p>
 <div id="matrix-format" class="section level2">
 <h2>Matrix format</h2>
-<p>square symmetric matrix. In this format, the weight <span class="math">\(w\)</span> of an between If you choose the <strong>matrix format</strong>, your network must consist in a vertices <span class="math">\(i\)</span> and <span class="math">\(j\)</span> is given by the corresponding value in the matrix <code>web[i,j]</code>. Auto-loop (i.e. diagonal terms are authorised). You may name the rows and/or columns, those names will be used in the function output. Example:</p>
+<p>square symmetric matrix. In this format, the weight <span class="math inline">\(w\)</span> of an between If you choose the <strong>matrix format</strong>, your network must consist in a vertices <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span> is given by the corresponding value in the matrix <code>web[i,j]</code>. Auto-loop (i.e. diagonal terms are authorised). You may name the rows and/or columns, those names will be used in the function output. Example:</p>
 <div id="example-1-triplet" class="section level3">
 <h3>Example 1: Triplet</h3>
-<pre class="sourceCode r"><code class="sourceCode r">    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>)
-    input[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">2</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">3</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">1</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">1</span>
-    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)
-    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">rownames</span>(input)
-    <span class="kw">print</span>(input)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">3</span>,<span class="dv">3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>    input[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    input[<span class="dv">2</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>    input[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>    input[<span class="dv">3</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>    input[<span class="dv">1</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">rownames</span>(input)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>    <span class="kw">print</span>(input)</span></code></pre></div>
 <pre><code>##   A B C
 ## A 0 1 1
 ## B 1 0 1
 ## C 1 1 0</code></pre>
 <p>Note that <code>igraph</code> package can be used to manipulate and plot graphs:</p>
-<pre class="sourceCode r"><code class="sourceCode r">    <span class="co"># import from rnetcarto matrix format to igraph:</span>
-    G =<span class="st"> </span>igraph::<span class="kw">graph.adjacency</span>(input,<span class="dt">weighted=</span><span class="ot">TRUE</span>,<span class="dt">mode=</span><span class="st">&quot;undirected&quot;</span>)
-    <span class="co"># Export to a matrix compatible with netcarto:</span>
-    input =<span class="st"> </span>igraph::<span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>)</code></pre>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAIAAACb4TnXAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAOuElEQVR4nO3de3CU9b3H8Q8kQTCggAGzBLVyS4HgEUpL0Bh1uGgvJiBSnUOplVJPHemRTqd6nBIUZtDa8ZYwjEqhYLBVcOZEM14STEnIpUAFq45aqOV+AiGWitmIBZM854+1IbvZQC77fZ7d5f0a/vG3T575Bebt73l+e+vlOI4A2Ojt9QSAeEZggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggCECAwwRGGCIwABDBAYYIjDAEIEBhggMMERggKFErydw3ti1SxUVqq3V8eMaNEjDhik7W5mZXk8LtgjMXn6+nnxShw6Fecjn089+pgcfdH1OcEkvx3G8nkP82rVL3/++9u07x2FpafrDH5Sd7cqc4CruwcwUFSk7+9x1Saqt1YwZWr/efEpwHSuYjW3bdOONOnWqCz+SkKDXXtPNN5vNCR4gMAOffKKrrlJdXZd/cOBAffCB0tIM5gRvcIlo4KmngupKGK6djpw2f748rq3Pasrg0B88cULLlrk5U1hjBYu0EyeUlqaTJ8+MJAzXjsNK26Rlf1SLlNBXl0/WT+frgrc09js62BT044mJOnCARSxusE0faaWlQXW1qqvUmtVqranouHYs1s0+PXc46LCmJhUX6557rKcJd3CJGGmbN3fqsOOHJEefnw7zUGlpZGcED7GCRdrBg+HHkwYoZYiapYS+umySli/RkfUq+aQLZ0AMIrBIq68PPz7+UR19tM1/H9Udy/WPljBHdmP7EdGKwCItOTn8+MFnde+rapYkXejTrb/US+/ogqtV2O4lVP37m04QbiKwSPP5wo9/+oFKS85schSXa8x+PfRf2vgr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" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>    <span class="co"># import from rnetcarto matrix format to igraph:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>    G =<span class="st"> </span>igraph<span class="op">::</span><span class="kw">graph.adjacency</span>(input,<span class="dt">weighted=</span><span class="ot">TRUE</span>,<span class="dt">mode=</span><span class="st">&quot;undirected&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>    <span class="co"># Export to a matrix compatible with netcarto:</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>    input =<span class="st"> </span>igraph<span class="op">::</span><span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="example-2-two-triplets" class="section level3">
 <h3>Example 2: Two triplets</h3>
-<pre class="sourceCode r"><code class="sourceCode r">    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">7</span>)
-    input[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">10</span>
-    input[<span class="dv">2</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">10</span>
-    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">10</span>
-    input[<span class="dv">4</span>,<span class="dv">5</span>] =<span class="st"> </span><span class="dv">10</span>
-    input[<span class="dv">5</span>,<span class="dv">6</span>] =<span class="st"> </span><span class="dv">10</span>
-    input[<span class="dv">6</span>,<span class="dv">4</span>] =<span class="st"> </span><span class="dv">10</span>
-    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)
-    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">rownames</span>(input)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">7</span>,<span class="dv">7</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>    input[<span class="dv">1</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>    input[<span class="dv">2</span>,<span class="dv">3</span>] =<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>    input[<span class="dv">4</span>,<span class="dv">5</span>] =<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>    input[<span class="dv">5</span>,<span class="dv">6</span>] =<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a>    input[<span class="dv">6</span>,<span class="dv">4</span>] =<span class="st"> </span><span class="dv">10</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;G&quot;</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a>    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">rownames</span>(input)</span></code></pre></div>
 <p>Note that:</p>
 <ul>
-<li>Empty colums and lines are removed (Here <code>G</code>).</li>
+<li>Empty columns and lines are removed (Here <code>G</code>).</li>
 <li>If the matrix is not symmetric, symmetry will be enforced by taking <code>web = web+t(web)-diag(web)</code></li>
 </ul>
 <p>So the previous matrix is equivalent to:</p>
@@ -140,21 +445,21 @@ code > span.er { color: #ff0000; font-weight: bold; }
 ## D  0  0  0  0 10 10
 ## E  0  0  0 10  0 10
 ## F  0  0  0 10 10  0</code></pre>
-<p><img src="data:image/png;base64,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" /></p>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="example-3-bipartite-triplets" class="section level3">
 <h3>Example 3: Bipartite triplets</h3>
 <p>Note that the matrix <em>may</em> not be square and symmetric <em>if and only if</em> you are considering a bipartite network (using the <code>bipartite</code> flag).</p>
-<pre class="sourceCode r"><code class="sourceCode r">    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">2</span>)
-    input[<span class="dv">1</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">4</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">5</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
-    input[<span class="dv">6</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span>
-    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)
-    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Team 1&quot;</span>, <span class="st">&quot;Team 2&quot;</span>)
-    <span class="kw">print</span>(input)</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>    input =<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>,<span class="dv">6</span>,<span class="dv">2</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>    input[<span class="dv">1</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    input[<span class="dv">2</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    input[<span class="dv">3</span>,<span class="dv">1</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>    input[<span class="dv">4</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a>    input[<span class="dv">5</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a>    input[<span class="dv">6</span>,<span class="dv">2</span>] =<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a>    <span class="kw">rownames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a>    <span class="kw">colnames</span>(input) =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Team 1&quot;</span>, <span class="st">&quot;Team 2&quot;</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a>    <span class="kw">print</span>(input)</span></code></pre></div>
 <pre><code>##   Team 1 Team 2
 ## A      1      0
 ## B      1      0
@@ -169,10 +474,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <p>If you choose the <strong>list format</strong>, your network must be formatted as a R-list. The first element must be a vector giving the label. The third element is a vector of the edge weights. The weights are optional and are all set to one if the list contains only the first two elements.</p>
 <div id="example-1-unweighted-network" class="section level3">
 <h3>Example 1: Unweighted network:</h3>
-<pre class="sourceCode r"><code class="sourceCode r">    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>)
-    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>)
-    web =<span class="st"> </span><span class="kw">list</span>(nd1,nd2,weights)
-    <span class="kw">print</span>(<span class="kw">list</span>(nd1,nd2))</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a>    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a>    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a>    web =<span class="st"> </span><span class="kw">list</span>(nd1,nd2,weights)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a>    <span class="kw">print</span>(<span class="kw">list</span>(nd1,nd2))</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot;
 ## 
@@ -181,11 +486,11 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="example-2-weighted-network" class="section level3">
 <h3>Example 2: Weighted network</h3>
-<pre class="sourceCode r"><code class="sourceCode r">    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>)
-    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>)
-    weights =<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">1</span>)
-    web =<span class="st"> </span><span class="kw">list</span>(nd1,nd2,weights)
-    <span class="kw">print</span>(web)</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;D&quot;</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>    weights =<span class="st"> </span><span class="kw">c</span>(<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">10</span>,<span class="dv">1</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>    web =<span class="st"> </span><span class="kw">list</span>(nd1,nd2,weights)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>    <span class="kw">print</span>(web)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot; &quot;A&quot;
 ## 
@@ -197,10 +502,10 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="example-3-bipartite-network" class="section level3">
 <h3>Example 3: Bipartite network</h3>
-<pre class="sourceCode r"><code class="sourceCode r">    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>)
-    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>)
-    bipartite =<span class="st"> </span><span class="kw">list</span>(nd1,nd2)
-    <span class="kw">print</span>(bipartite)</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a>    nd1 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>,<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;A&quot;</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a>    nd2 =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team1&quot;</span>,<span class="st">&quot;Team2&quot;</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a>    bipartite =<span class="st"> </span><span class="kw">list</span>(nd1,nd2)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>    <span class="kw">print</span>(bipartite)</span></code></pre></div>
 <pre><code>## [[1]]
 ## [1] &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;C&quot; &quot;A&quot;
 ## 
@@ -209,12 +514,12 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 </div>
 </div>
-<div id="ouput-how-should-i-read-the-result" class="section level1">
-<h1>Ouput: How should I read the result ?</h1>
+<div id="output-how-should-i-read-the-result" class="section level1">
+<h1>Output: How should I read the result?</h1>
 <p>The <code>netcarto</code> command output a list. Its first element is a dataframe giving the name module, connectivity, and participation coefficient for each node of the input graph. The second element is the modularity of this optimal partition.</p>
 <div id="example-1-weighted-network" class="section level3">
 <h3>Example 1: Weighted network</h3>
-<pre class="sourceCode r"><code class="sourceCode r">    <span class="kw">netcarto</span>(igraph::<span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>))</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a>    <span class="kw">netcarto</span>(igraph<span class="op">::</span><span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>))</span></code></pre></div>
 <pre><code>## [[1]]
 ##   name module connectivity participation             role
 ## 1    A      0            0             0 Ultra peripheral
@@ -229,15 +534,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </div>
 <div id="example-2-bipartite-network" class="section level3">
 <h3>Example 2: Bipartite network</h3>
-<pre class="sourceCode r"><code class="sourceCode r">   <span class="kw">netcarto</span>(bipartite, <span class="dt">bipartite=</span><span class="ot">TRUE</span>)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a>   <span class="kw">netcarto</span>(bipartite, <span class="dt">bipartite=</span><span class="ot">TRUE</span>)</span></code></pre></div>
 <pre><code>## [[1]]
 ##   name module connectivity participation             role
-## 2    B      0    0.0000000     0.5000000       Peripheral
-## 5    E      0    0.0000000     0.5000000       Peripheral
-## 4    D      1   -0.5773503     0.0000000 Ultra peripheral
-## 6    F      1   -0.5773503     0.0000000 Ultra peripheral
-## 1    A      1   -0.5773503     0.4444444       Peripheral
-## 3    C      1    1.7320508     0.0000000 Ultra peripheral
+## 4    D      0   -0.5773503     0.0000000 Ultra peripheral
+## 6    F      0   -0.5773503     0.0000000 Ultra peripheral
+## 1    A      0   -0.5773503     0.4444444       Peripheral
+## 3    C      0    1.7320508     0.0000000 Ultra peripheral
+## 2    B      1    0.0000000     0.5000000       Peripheral
+## 5    E      1    0.0000000     0.5000000       Peripheral
 ## 
 ## [[2]]
 ## [1] 0.3317308</code></pre>
@@ -246,12 +551,15 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 
 
+<!-- code folding -->
+
+
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

@@ -1,5 +1,5 @@
 ---
-title: "Getting started with rnetcarto"
+title: "Getting Started with rnetcarto"
 author: "Guilhem Doulcier"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,13 +16,13 @@ vignette: >
 
 # Rnetcarto in 60 seconds.
 
-Rnectcarto provides fast network modularity and roles computation by
+Rnetcarto provides fast network modularity and roles computation by
 simulated annealing
 ([rgraph C library](https://github.com/seeslab/rgraph) wrapper for
 R). 
 
 It exposes one main command named `netcarto` that take a graph as an
-input (formated as an **adjacency matrix** or **list**, as described
+input (formatted as an **adjacency matrix** or **list**, as described
 in more detail below) and returns a partition of the graph optimizing
 a given modularity criterion. It also computes the modularity roles of
 the nodes.
@@ -41,7 +41,7 @@ Here is a small example:
  netcarto(a)
 ```
 
-# Input: How should I format my data ?
+# Input: How should I format my data?
 
 The `netcarto` function can read network in either adjacency matrix or
 adjacency list format.
@@ -103,7 +103,7 @@ Note that `igraph` package can be used to manipulate and plot graphs:
 
 Note that:
 
-- Empty colums and lines are removed (Here `G`).
+- Empty columns and lines are removed (Here `G`).
 - If the matrix is not symmetric, symmetry will be enforced by taking
   `web = web+t(web)-diag(web)`
 
@@ -153,7 +153,7 @@ flag).
     rownames(input) = c("A","B","C","D","E","F")
     colnames(input) = c("Team 1", "Team 2")
 	print(input)
-	```
+```
 
 
 ## List format
@@ -170,7 +170,7 @@ elements.
     nd2 = c("B","C","A","E","F","D","D")
 	web = list(nd1,nd2,weights)
     print(list(nd1,nd2))
-	```
+```
 
 ### Example 2: Weighted network
 ``` {r, echo=TRUE}
@@ -188,9 +188,9 @@ elements.
     nd2 = c("Team1","Team2","Team1","Team1","Team2","Team1","Team1","Team2")
 	bipartite = list(nd1,nd2)
     print(bipartite)
-	```
+```
 	
-# Ouput: How should I read the result ?
+# Output: How should I read the result?
 
 The `netcarto` command output a list. Its first element is a dataframe
 giving the name module, connectivity, and participation coefficient for
