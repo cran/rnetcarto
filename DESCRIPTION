@@ -2,7 +2,7 @@ Package: rnetcarto
 Type: Package
 Title: Fast Network Modularity and Roles Computation by Simulated
         Annealing (Rgraph C Library Wrapper for R)
-Version: 0.2.5
+Version: 0.2.6
 Authors@R: c(
 	person("Daniel B.", "Stouffer", role = c('cre','aut','ths'), email = "daniel.stouffer@canterbury.ac.nz", comment=c("Maintainer")),
 	person("Guilhem", "Doulcier", role = c('aut'), email = "guilhem.doulcier@ens.fr", comment = c("R bindings, current implementation of the simulated annealing algorithm")),
@@ -15,12 +15,12 @@ SystemRequirements: GNU GSL
 NeedsCompilation: yes
 Suggests: testthat, knitr, rmarkdown, igraph
 VignetteBuilder: knitr
-RoxygenNote: 7.1.2
-Packaged: 2022-05-11 02:22:49 UTC; stouffer
+RoxygenNote: 7.2.1
+Packaged: 2023-01-16 21:15:30 UTC; stouffer
 Author: Daniel B. Stouffer [cre, aut, ths] (Maintainer),
   Guilhem Doulcier [aut] (R bindings, current implementation of the
     simulated annealing algorithm),
   Roger Guimera [ctb] (Author of the original rgraph library)
 Maintainer: Daniel B. Stouffer <daniel.stouffer@canterbury.ac.nz>
 Repository: CRAN
-Date/Publication: 2022-05-11 09:30:02 UTC
+Date/Publication: 2023-01-16 21:50:02 UTC

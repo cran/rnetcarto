@@ -2,4 +2,4 @@
 
 export(netcarto)
 importFrom(stats,runif)
-useDynLib(rnetcarto, netcarto_binding)
+useDynLib(rnetcarto, netcarto_binding, .registration = TRUE)

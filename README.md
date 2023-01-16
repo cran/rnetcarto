@@ -1,6 +1,8 @@
 # rnetcarto
 
+<!--
 [![Build Status](https://travis-ci.org/geeklhem/rnetcarto.svg?branch=master)](https://travis-ci.org/geeklhem/rnetcarto) [![codecov.io](http://codecov.io/github/geeklhem/rnetcarto/coverage.svg?branch=master)](http://codecov.io/github/geeklhem/rnetcarto?branch=master)
+-->
 
 Fast network modularity and roles computation by simulated annealing  ([rgraph C library](https://github.com/seeslab/rgraph) wrapper for R).
 

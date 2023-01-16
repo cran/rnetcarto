@@ -12,7 +12,7 @@
 
 <meta name="author" content="Guilhem Doulcier" />
 
-<meta name="date" content="2022-05-11" />
+<meta name="date" content="2023-01-17" />
 
 <title>Getting Started with rnetcarto</title>
 
@@ -137,13 +137,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -349,7 +356,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 <h1 class="title toc-ignore">Getting Started with rnetcarto</h1>
 <h4 class="author">Guilhem Doulcier</h4>
-<h4 class="date">2022-05-11</h4>
+<h4 class="date">2023-01-17</h4>
 
 
 
@@ -378,19 +385,19 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true"></a> <span class="kw">netcarto</span>(a)</span></code></pre></div>
 <pre><code>## [[1]]
 ##    name module connectivity participation             role
-## 4     c      0   -0.9045340     0.0000000 Ultra peripheral
-## 9     h      0   -0.9045340     0.6250000        Connector
-## 6     e      0    0.3015113     0.5600000       Peripheral
-## 8     g      0    1.5075567     0.3200000       Peripheral
-## 1     a      1   -0.7071068     0.5000000       Peripheral
-## 3     b      1   -0.7071068     0.5000000       Peripheral
-## 7     f      1    1.4142136     0.6250000        Connector
-## 2     b      2   -1.4142136     0.4444444       Peripheral
-## 5     d      2    0.7071068     0.4800000       Peripheral
-## 10    i      2    0.7071068     0.5600000       Peripheral
+## 4     c      0   -1.0000000     0.0000000 Ultra peripheral
+## 5     d      0    1.0000000     0.6250000        Connector
+## 2     b      1   -1.2247449     0.0000000 Ultra peripheral
+## 8     g      1   -1.2247449     0.0000000 Ultra peripheral
+## 1     a      1    0.8164966     0.3200000       Peripheral
+## 6     e      1    0.8164966     0.3200000       Peripheral
+## 10    i      1    0.8164966     0.3200000       Peripheral
+## 7     f      2   -0.7071068     0.0000000 Ultra peripheral
+## 3     b      2   -0.7071068     0.6666667        Connector
+## 9     h      2    1.4142136     0.4444444       Peripheral
 ## 
 ## [[2]]
-## [1] 0.13875</code></pre>
+## [1] 0.1373457</code></pre>
 </div>
 <div id="input-how-should-i-format-my-data" class="section level1">
 <h1>Input: How should I format my data?</h1>
@@ -522,12 +529,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a>    <span class="kw">netcarto</span>(igraph<span class="op">::</span><span class="kw">get.adjacency</span>(G,<span class="dt">sparse=</span><span class="ot">FALSE</span>))</span></code></pre></div>
 <pre><code>## [[1]]
 ##   name module connectivity participation             role
-## 1    A      0            0             0 Ultra peripheral
-## 2    B      0            0             0 Ultra peripheral
-## 3    C      0            0             0 Ultra peripheral
-## 4    D      1            0             0 Ultra peripheral
-## 5    E      1            0             0 Ultra peripheral
-## 6    F      1            0             0 Ultra peripheral
+## 4    D      0            0             0 Ultra peripheral
+## 5    E      0            0             0 Ultra peripheral
+## 6    F      0            0             0 Ultra peripheral
+## 1    A      1            0             0 Ultra peripheral
+## 2    B      1            0             0 Ultra peripheral
+## 3    C      1            0             0 Ultra peripheral
 ## 
 ## [[2]]
 ## [1] 0.5</code></pre>

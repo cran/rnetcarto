@@ -1,4 +1,4 @@
-#' @useDynLib rnetcarto, netcarto_binding
+#' @useDynLib rnetcarto, netcarto_binding, .registration = TRUE
 #' @importFrom stats runif
 NULL
 #' Compute modularity and modularity roles for graphs using simulated
